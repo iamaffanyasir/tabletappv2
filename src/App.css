@@ -1,0 +1,415 @@
+.app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000000;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 104%;
+  background-color: #000000;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Responsive background sizing */
+@media (orientation: portrait) {
+  .background {
+    background-size: contain;
+  }
+}
+
+@media (orientation: landscape) {
+  .background {
+    background-size: cover;
+  }
+}
+
+@media (max-width: 480px) {
+  .background {
+    background-size: contain;
+  }
+}
+
+.background.floating {
+  animation: float 2s ease-in-out infinite;
+}
+
+.background.swipe-up {
+  animation: swipeUpAnimation 1s ease-out forwards;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes swipeUpAnimation {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-150vh);
+    opacity: 0;
+  }
+}
+
+/* Additional responsive improvements */
+@media (max-height: 600px) {
+  .form-container {
+    padding: clamp(15px, 3vw, 25px);
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+  
+  .form-group {
+    margin-bottom: clamp(10px, 2vh, 20px);
+  }
+  
+  h1 {
+    font-size: clamp(20px, 3vw, 28px);
+    margin-bottom: clamp(10px, 2vh, 20px);
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 600px) {
+  .form-container {
+    max-width: 90vw;
+    width: min(90%, 600px);
+  }
+  
+  .background {
+    background-size: cover;
+  }
+}
+
+/* Very large screens */
+@media (min-width: 2560px) {
+  .form-container {
+    max-width: 800px;
+  }
+  
+  h1 {
+    font-size: 40px;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    font-size: 18px;
+    padding: 14px 18px;
+  }
+}
+
+/* Prevent text selection on interactive elements */
+.submit-btn,
+.swipe-text {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Improve performance on mobile */
+@media (max-width: 768px) {
+  .background {
+    will-change: background-image;
+  }
+}
+
+/* Fix for iOS Safari viewport issues */
+@supports (-webkit-touch-callout: none) {
+  .app {
+    min-height: -webkit-fill-available;
+  }
+  
+  .form-container {
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.form-container {
+  position: relative;
+  z-index: 2;
+  padding: clamp(20px, 4vw, 40px);
+  border-radius: clamp(12px, 2vw, 20px);
+  max-width: min(500px, 90vw);
+  width: min(90%, 500px);
+  animation: fadeIn 0.5s ease-in;
+  margin: clamp(10px, 2vh, 20px);
+}
+
+/* Responsive form container for different screen sizes */
+@media (max-width: 480px) {
+  .form-container {
+    width: 70%;
+    padding: clamp(15px, 5vw, 30px);
+    max-width: 70%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .form-container {
+    width: 85%;
+  }
+}
+
+@media (min-width: 1025px) {
+  .form-container {
+    max-width: 600px;
+    width: 70%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .form-container {
+    max-width: 700px;
+  }
+}
+
+.form-container.fade-out {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+h1 {
+  color: #333;
+  margin-bottom: clamp(15px, 3vh, 30px);
+  text-align: center;
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.form-group {
+  margin-bottom: clamp(15px, 2.5vh, 25px);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: clamp(6px, 1vh, 8px);
+  color: #555;
+  font-weight: 600;
+  font-size: clamp(14px, 2.5vw, 16px);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: clamp(10px, 2vw, 12px) clamp(12px, 2.5vw, 16px);
+  border: 2px solid #e0e0e0;
+  border-radius: clamp(8px, 1.5vw, 10px);
+  font-size: clamp(14px, 2.5vw, 16px);
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: clamp(100px, 15vh, 120px);
+  max-height: 40vh;
+}
+
+/* Improve touch targets on small screens */
+@media (max-width: 480px) {
+  .form-group input,
+  .form-group textarea {
+    font-size: 10px; /* Prevent zoom on iOS */
+    min-height: 44px; /* Minimum touch target size */
+  }
+  
+  .form-group textarea {
+    min-height: 120px;
+  }
+}
+
+.submit-btn {
+  width: 100%;
+  padding: clamp(14px, 3vh, 16px);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: clamp(8px, 1.5vw, 10px);
+  font-size: clamp(16px, 3vw, 18px);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 48px; /* Minimum touch target */
+  touch-action: manipulation; /* Disable double-tap zoom */
+}
+
+@media (max-width: 480px) {
+  .submit-btn {
+    min-height: 50px;
+    font-size: 17px; /* Prevent zoom on iOS */
+  }
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+.submit-btn:disabled {
+  background: linear-gradient(135deg, #999 0%, #666 100%);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.submit-btn:disabled:hover {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.swipe-instruction {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  pointer-events: none;
+  padding: clamp(10px, 3vw, 20px);
+}
+
+.swipe-text {
+  font-size: clamp(28px, 6vw, 48px);
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: clamp(2px, 0.5vw, 4px);
+  margin: 0;
+  animation: swipeUpPulse 2s ease-in-out infinite;
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(255, 255, 255, 0.6),
+    0 0 30px rgba(255, 255, 255, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+@media (max-width: 480px) {
+  .swipe-text {
+    font-size: clamp(24px, 8vw, 36px);
+  }
+}
+
+@media (min-width: 1920px) {
+  .swipe-text {
+    font-size: 56px;
+  }
+}
+
+@keyframes swipeUpPulse {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-30px);
+    opacity: 0.7;
+  }
+}
+
+.thank-you {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #4CAF50;
+  background: rgba(255, 255, 255, 0.95);
+  padding: clamp(25px, 5vw, 40px);
+  border-radius: clamp(12px, 2vw, 20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease-in;
+  max-width: min(500px, 90vw);
+  width: min(85%, 500px);
+  margin: clamp(10px, 2vh, 20px);
+  backdrop-filter: blur(10px);
+}
+
+.thank-you h2 {
+  font-size: clamp(28px, 5vw, 36px);
+  margin-bottom: clamp(8px, 1.5vh, 10px);
+  line-height: 1.2;
+}
+
+.thank-you p {
+  font-size: clamp(16px, 3vw, 20px);
+  color: #666;
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .thank-you {
+    width: 90%;
+    padding: 30px 20px;
+  }
+  
+  .thank-you h2 {
+    font-size: 28px;
+  }
+  
+  .thank-you p {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .thank-you {
+    max-width: 600px;
+    padding: 50px;
+  }
+}
+
