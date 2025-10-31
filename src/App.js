@@ -5,18 +5,26 @@ const COLORS = ['blue', 'red', 'green', 'yellow', 'purple', 'orange'];
 
 // Use environment variable for WebSocket URL, fallback to localhost for development
 const getWebSocketUrl = () => {
-  // Priority 1: Use environment variable if set
+  // Priority 1: Use environment variable if set (REQUIRED for production)
   if (process.env.REACT_APP_WS_URL) {
-    return process.env.REACT_APP_WS_URL;
+    const url = process.env.REACT_APP_WS_URL.trim().replace(/\/$/, ''); // Remove trailing slash
+    console.log('Using WebSocket URL from environment:', url);
+    return url;
   }
   // Priority 2: Development - use localhost
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     return 'ws://localhost:3001';
   }
-  // Priority 3: Production fallback - auto-detect protocol and use same host
-  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-  const host = window.location.hostname + (window.location.port ? ':' + window.location.port : '');
-  return `${protocol}//${host}`;
+  // Priority 3: Production fallback - this should NOT be reached if env var is set
+  // If reached, it means environment variable is not set - this is a configuration error
+  console.error('⚠️ REACT_APP_WS_URL environment variable is not set!');
+  console.error('Please set REACT_APP_WS_URL in Vercel environment variables.');
+  // Try to use theautochef.com as fallback (your backend domain)
+  const fallbackUrl = window.location.protocol === 'https:' 
+    ? 'wss://theautochef.com' 
+    : 'ws://theautochef.com';
+  console.warn('Using fallback URL (may not work):', fallbackUrl);
+  return fallbackUrl;
 };
 
 const WS_URL = getWebSocketUrl();
